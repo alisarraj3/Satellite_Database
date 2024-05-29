@@ -1,0 +1,4 @@
+requests
+postgresql
+psycopg2
+schedule

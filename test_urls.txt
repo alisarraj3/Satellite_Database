@@ -1,0 +1,5 @@
+https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=json
+https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=json
+https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=json
+https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=json
+https://celestrak.org/NORAD/elements/gp.php?GROUP=analyst&FORMAT=json

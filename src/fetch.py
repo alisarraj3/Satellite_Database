@@ -45,7 +45,7 @@ curr.execute(""" CREATE TABLE IF NOT EXISTS satellites(
 """)
 
 
-def parse(url):
+def parse_and_insert(url):
     response = requests.get(url)
     if response.status_code == 200:
         list_of_satellites = response.json()
@@ -78,8 +78,6 @@ def insert_to_db(satellite: Satellite):
     except psycopg2.Error:
         conn.rollback()
         return
-    except Exception:
-        return
 
 
 def collect_urls(file_name):
@@ -93,33 +91,6 @@ def collect_urls(file_name):
             cleaned_list.append(line)
     return cleaned_list
 
-
-if __name__ == "__main__":
-    lists_of_satellites = []
-    list_of_urls = collect_urls("test_urls.txt")
-    for url in list_of_urls:
-        lists_of_satellites.append(parse(url))
-#     data = {
-#     "OBJECT_NAME": "NOAA 15",
-#     "OBJECT_ID": "1998-030A",
-#     "EPOCH": "2024-05-26T20:16:42.238848",
-#     "MEAN_MOTION": 14.26586549,
-#     "ECCENTRICITY": 0.0010862,
-#     "INCLINATION": 98.5696,
-#     "RA_OF_ASC_NODE": 175.4164,
-#     "ARG_OF_PERICENTER": 33.6501,
-#     "MEAN_ANOMALY": 326.5367,
-#     "EPHEMERIS_TYPE": 0,
-#     "CLASSIFICATION_TYPE": "U",
-#     "NORAD_CAT_ID": 25338,
-#     "ELEMENT_SET_NO": 999,
-#     "REV_AT_EPOCH": 35439,
-#     "BSTAR": 0.00016613,
-#     "MEAN_MOTION_DOT": 0.00000358,
-#     "MEAN_MOTION_DDOT": 0
-#   }
-#     s = Satellite(data)
-#     insert_to_db(s)
 
 curr.close()
 conn.close()
