@@ -1,5 +1,6 @@
 import requests
 import psycopg2
+import sqlite3
 
 
 class Satellite:
@@ -23,6 +24,7 @@ class Satellite:
         self.MEAN_MOTION_DDOT = data["MEAN_MOTION_DDOT"]
 
 conn = psycopg2.connect(host="localhost", dbname="test_satellite", user="postgres", password="1234", port="5432")
+# conn = sqlite3.connect('satellite.db')
 curr = conn.cursor()
 curr.execute(""" CREATE TABLE IF NOT EXISTS satellites(
              object_id VARCHAR(255) PRIMARY KEY,
@@ -58,7 +60,6 @@ def parse_and_insert(url):
 
 
 def insert_to_db(satellite: Satellite):
-    # curr.execute("TRY;")
     curr.execute("BEGIN TRANSACTION;")
     sql_command = "INSERT INTO satellites (object_id, object_name, epoch, mean_motion, eccentricity, inclination, ra_of_asc_node, arg_of_pericenter, mean_anomaly, ephemeris_type, classification_type, norad_cat_id, element_set_no, rev_at_epoch, bstar, mean_motion_dot, mean_motion_ddot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     data = (satellite.OBJECT_ID, satellite.OBJECT_NAME, satellite.EPOCH, satellite.MEAN_MOTION, satellite.ECCENTRICITY, satellite.INCLINATION, satellite.RA_OF_ASC_NODE, satellite.ARG_OF_PERICENTER, satellite.MEAN_ANOMALY, satellite.EPHEMERIS_TYPE, satellite.CLASSIFICATION_TYPE, satellite.NORAD_CAT_ID, satellite.ELEMENT_SET_NO, satellite.REV_AT_EPOCH, satellite.BSTAR, satellite.MEAN_MOTION_DOT, satellite.MEAN_MOTION_DDOT)
